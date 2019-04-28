@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+</head>
+<body>
+
+  <script>
+    const counter = {
+    template:`
+        <div>{{count}}</div>`,
+    computed:{
+      count(){
+        return this.$store.state.count;
+      }
+
+    }
+  };
+  const store = new Vuex.Store({
+    state:{
+      count:22
+    }
+  });
+  new Vue({
+    el:"#app",
+    store,
+    data:{
+      msg:'欢迎使用vuex'
+    },
+    components:{
+      counter
+    }
+  });
+  </script>
+</body>
+</html>

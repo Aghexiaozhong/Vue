@@ -1,0 +1,46 @@
+{
+  "status":"0",
+  "msg":"",
+  "result":[
+    {
+      "productId":"103213",
+      "productName":"小米",
+      "productPrice":3333,
+      "productImg":"1.jpg"
+
+    },
+    {
+      "productId":"106546",
+      "productName":"小米2",
+      "productPrice":3303,
+      "productImg":"2.jpg"
+
+    },
+    {
+      "productId":"13213",
+      "productName":"小米3",
+      "productPrice":2222,
+      "productImg":"3.jpg"
+
+    }
+    , {
+      "productId":"198213",
+      "productName":"小米4",
+      "productPrice":8213,
+      "productImg":"4.jpg"
+
+    }
+
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+

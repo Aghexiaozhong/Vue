@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script src="node_modules/vue-resource/dist/vue-resource.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+  <div id="app" class="container">
+    <h1>vue-resoucer 插件讲解</h1>
+    <a href="javascript:;" class="btn btn-primary" @click="get">get 请求</a>
+    <a href="javascript:;" class="btn btn-primary" @click="post">post请求</a>
+    <a href="javascript:;" class="btn btn-primary" @click="jsonp">jsonp请求</a>
+    <a href="javascript:;" class="btn btn-primary" @click="http">http</a>
+    <span>{{msg}}</span>
+  </div>
+  <script>
+    new Vue({
+      el:'#app',
+      data:{
+        msg:''
+      },
+      //全局拦截器
+      // mounted:function () {
+      //   Vue.http.interceptors.push(function (request,next) {
+      //     console.log('request init ');
+      //     next(function (response) {
+      //       console.log('response init');
+      //       return response;
+      //     });
+      //   });
+      // }
+      // ,
+      http:{
+        //配置全局的路径  抽取的公共地址
+        root:'http://localhost:63342/vue%E9%A1%B9%E7%9B%AE%E7%BB%83%E4%B9%A0/demo3/'
+      }
+      ,
+      methods:{
+        get(){
+          this.$http.get('package.json',{
+            //option 选项
+            params:{
+              //参数写在params里面
+              userid:'102'
+            },
+            headers:{
+              token:'abcd'
+            }
+          }).then(res=>{
+            this.msg = res.data;
+          },error=>{
+            this.msg = error.data;
+          });
+        }
+        ,post(){
+          this.$http.post('package.json',{
+          params:{userid:'2332'},
+            headers:{
+            token:'weqeqwe'
+            }
+
+
+          }).then(res=>{
+            this.msg = res.data;
+            //数据封装在  res.data里面
+          },error=>{
+            this.msg = error.msg;
+          });
+        },
+        jsonp(){
+            this.$http.jsonp('http"//www.baidu.com',{
+
+            }).then(res=>{
+              this.msg = res.data;
+            });
+        },
+        http(){
+          this.$http({
+            url:'package.json',
+            params:{
+              userid:'343'
+            },
+            headers:{
+              acc_token:'jdeda'
+            },before(){
+              console.log('执行之前');
+            }
+          }).then(res=>{
+            this.msg = res.data;
+            console.log('执行之后');
+          });
+        }
+      }
+    })
+  </script>
+</body>
+</html>

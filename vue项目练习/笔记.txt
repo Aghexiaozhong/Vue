@@ -1,0 +1,123 @@
+vue init webpack-simple Demo2  初始化一个简单的vue项目
+vue init webpack Demo2 初始化一个完整的vue项目
+当下载别人的项目的时候，需要先 cnpm i 把依赖下载完毕
+chalk　对日志、文案输出颜色的设置
+图片使用base64  这样会节省资源 减少访问次数
+我们只关心数据层面的改变   {{变量}}
+v-show  控制片段隐藏或显示
+v-cloak
+v-on:click.stop  阻止冒泡
+v-on:click.prevent 阻止默认事件  比如 点击a标签，就不会链接到其他页面
+v-on:click.self
+v-on:click.once
+v-on:keyup.enter  捕获enter键
+Vue中默认父组件讲数据传输到子组件
+slot  面包屑的插槽
+
+编程是路由    通过js实现页面的跳转
+$router.push('name')
+$router.push({path:'name?a=123})
+
+
+vue-resource
+
+
+AMD --- 是RequireJS 在推广过程中对模块的规范化产出
+javascript  是对ES6的实现
+
+commonJS 是在nodeJS后端使用的
+
+
+
+商品基础组件拆分
+    复用的
+    header组件
+    footer组件
+    面包屑组件
+
+
+    路由在index.js里
+    assets  存放组件的资源
+    static 存放需要加载的图片等
+模拟mock 数据，加载商品信息，这样不用往后台调用接口
+
+nodeJS  遵循commonJS的规范  1，基于chorme V8引擎
+                            2，单线程
+                            3，使用JS开发后端代码
+                            4,飞阻塞的IO
+
+
+搭建基于express框架的运行环境
+        安装express generator 生成器
+        npm i express generaotr -g --save
+
+express server 生成项目
+    bin里是可执行文件
+    pubilc里是一些静态资源
+    app.js  是入口
+
+nodejs 启动调试方式
+    通过node访问    node server/bin/www 启动服务器
+    ｗｅｂｓｔｏｒｍ　配置启动入口（推荐）
+    Pm2   下载完毕之后 使用　ｐｍ２　start server/bin/www
+    这是通过进程的方式进行管理
+    pm2 list  查看启动的列表
+
+加载某个插件的时候，在main.js中引入
+商品列表的查询
+    1，安装mongoose
+    2,
+    3,安装路由
+分页：　vue-infinite-scroll   关于滚动条的
+ v-infinite-scroll  鼠标滚动加载的函数  infinite-scroll-disabled  是否禁用
+<ul class="newsList" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="5">
+      <li v-for="(item,index) in newsList"></li>
+</ul>
+
+<div id="loadMore" v-show="droping">加载中</div>
+<div id="loadMore" v-show="noMore">没有更多的数据</div>
+
+node 端口是3000 而我们的vue的端口是8080，所以之间相互通信需要设置代理
+在config.js 中的index.js中设置代理插件　如
+'/goods/*':{
+        target:'http://localhost:3000'
+      },
+
+supervisor  可以自动监听noeejs的变化
+记得每次nodejs变化的时候，重启
+
+如果使用session的时候，要使用express-session 插件
+
+在app.js中使用
+            //在进入路由之前，先全局拦截，查看用户是否处于登录状态
+           app.use(function (req,res,next) {
+               if(req.cookies.userId){
+                 next();
+               }else{
+                 //设置url白名单  ，比如用户的登录和登出  而访问商品列表的url 是 类似http://localhost:8080/goods?page=1&pageSize=8&sort=1&priceLevel=all
+                 //不止是/goods  所以URL中存在/goods/list (访问商品列表的URL)即可
+                 if(req.originalUrl == '/users/login' || req.originalUrl == '/users/logout' || req.path == '/goods/list'){
+                   next();
+                 }else{
+                   res.json({
+                     status:'1001',
+                     msg:'当前未登录',
+                     result:''
+                   });
+                 }
+               }
+           });
+这样可以防止用户在未登录的状态添加购物车等有关用户权限的操作
+通过  @keyup.enter=""  可以绑定键盘的enter事件
+
+Vuex  :vuex是一个专门为vue.js开发的状态管理模式（每个组件里面的data里的变量都是状态）
+        当我们构建一个大中型单页面应用程序的时候，vuex可以更好地帮助我们在组件外部统一管理状态
+        核心概念：State(状态)  是唯一的数据源，单一的状态树
+                   Getters  可以派生出新的状态，当有些组件不是全部使用state里的数据，可以使用Getters过滤掉不需要的数据
+                   Mulations  更改vuex的stroe的状态的唯一方法是提交mulation
+                   Actions      提交的是mulatios 而不是直接改变状态  actions可以包含任意异步操作
+                   Modules       当管理的状态比较多的时候，我们需要将vuex的store对象分割成模块
+
+
+
+

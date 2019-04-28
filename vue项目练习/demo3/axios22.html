@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <!--<script src="node_modules/vue-resource/dist/vue-resource.js"></script>-->
+  <script src="node_modules/axios/dist/axios.js"></script>
+</head>
+<body>
+<div id="app" class="container">
+  <h1>vue-axios插件讲解</h1>
+  <!--javascript:;  防止页面跳转 防止页面刷新-->
+  <a href="javascript:;" class="btn" v-on:click="get">get请求</a>
+  <a href="javascript:;" class="btn" @click="post">post请求</a>
+  <a href="javascript:;" class="btn" @click="http">http</a>
+  <div><span>{{msg}}</span></div>
+</div>
+<script>
+
+    new Vue({
+      el:'#app',
+      data:{
+        msg:''
+      },
+      // mounted:function () {
+      //   //定义全局拦截器
+      //   axios.interceptors.request.use(function (config) {
+      //     //在return config之前拦截到requset
+      //     console.log('requst init');
+      //     return config;
+      //   })
+      //   axios.interceptors.response.use(function (reponse) {
+      //     console.log('response init');
+      //     return response;
+      //   })
+      // }
+      // ,
+      //全局拦截器
+      mounted:function () {
+        axios.interceptors.request.use(function (config) {
+          console.log('requset init');  //在这里拦截用户的请求
+          return config;
+        });
+        axios.interceptors.response.use(function (response) {
+          console.log('response init');  //这里拦截响应给用户的东西
+          return response;
+        });
+      }
+      ,
+      methods: {
+        get: function () {
+          axios.get('package.json', {
+            params: {
+              userid: '1212'
+            },
+            headers: {
+              token: 'jack'
+            },
+            before: function () {
+              console.log('befor init');
+            }
+          }).then(res => {
+            //成功通过res.data获取响应回来的数据
+            this.msg = res.data;
+            //失败用catch 来捕获
+          }).catch(function (error) {
+            console.log('error:' + error);
+          })
+        },
+        post: function(){
+          axios.post('package.json',{
+            'userid':888},{
+            headers:{
+              toekn:'tormf'
+            }
+
+            }).then(res=>{
+            this.msg = res.data;
+          }).catch(error=>{
+            this.msg = error.data;
+          });
+        },
+        http: function(){
+          axios({
+            url:'package.json',
+            method:'post',   //post通过data传递参数  get 通过params传递参数
+            data:{
+              userid:213
+            },
+            params:{
+              userid:213
+            }
+            ,
+
+            headers:{
+              token:'acc  ccca'
+            }
+          }).then(res=>{
+            this.msg = res.data;
+          });
+        }
+      }
+  })
+
+</script>
+</body>
+</html>
